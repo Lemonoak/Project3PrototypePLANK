@@ -49,14 +49,15 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetButtonDown(input.Action))
             {
+                
                 //Debug.Log(input.controllerID + " Pressed X");
                 RaycastHit hit;
-                Vector3 origin = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-                Vector3 forwardDirection = new Vector3(transform.forward.x, 0.0f, transform.forward.z);
+                Vector3 origin = transform.position;
+                Vector3 forwardDirection = transform.forward;
+                Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
                 if(Physics.Raycast(origin, forwardDirection * hitRange, out hit))
                 {
                     //Debug.Log(hit);
-                    Debug.DrawLine(origin, forwardDirection * hitRange, Color.blue, 3f);
                     //this pushes a box
                     if(hit.collider.tag == "Box")
                     {
