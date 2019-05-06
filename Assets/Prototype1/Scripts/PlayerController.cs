@@ -8,8 +8,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField]
-    float speed = 5f;
+    float speed = 5.0f;
     private Rigidbody rigidbody;
+    [SerializeField]
+    float hitRange = 10.0f;
+    float force = 10.0f;
 
     void Start()
     {
@@ -46,9 +49,33 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetButtonDown(input.Action))
             {
-                Debug.Log(input.controllerID + " Pressed X");
+                //Debug.Log(input.controllerID + " Pressed X");
+                RaycastHit hit;
+                Vector3 origin = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                Vector3 forwardDirection = new Vector3(transform.forward.x, 0.0f, transform.forward.z);
+                if(Physics.Raycast(origin, forwardDirection * hitRange, out hit))
+                {
+                    //Debug.Log(hit);
+                    Debug.DrawLine(origin, forwardDirection * hitRange, Color.blue, 3f);
+                    //this pushes a box
+                    if(hit.collider.tag == "Box")
+                    {
+                        hit.collider.gameObject.GetComponent<GetPushed>().AddForce(forwardDirection);
+                    }
+                    //This pushed the player
+                    if (hit.collider.tag == "Player" && hit.collider != this)
+                    {
+                        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+                    }
+                }
             }
         }
+    }
+
+    //The function to get pushed
+    void GetPushed(Vector3 direction)
+    {
+        rigidbody.AddForce(new Vector3(direction.x * force, 10, direction.y * force), ForceMode.Impulse);
     }
 
 }
