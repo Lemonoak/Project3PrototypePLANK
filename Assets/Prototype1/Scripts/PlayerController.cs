@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void Fire()
     {
         if(input.ConnectedController)
@@ -78,5 +77,4 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody.AddForce(new Vector3(direction.x * force, 10, direction.y * force), ForceMode.Impulse);
     }
-
 }
