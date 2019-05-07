@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float pushDelay = 0.1f;
     public float shakeTime = 1.0f;
+    public float respawnTimer = 1.0f;
 
     private Camera mainCamera;
     public GameObject batPivot;
@@ -36,7 +37,6 @@ public class PlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         input = GetComponent<InputHandler>();
         mainCamera = Camera.main;
-        
     }
 
     float lerpTime;
@@ -68,8 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         Moving();
         Fire();
-
-
     }
 
     void Moving()
@@ -144,7 +142,4 @@ public class PlayerController : MonoBehaviour
         mainCamera.GetComponent<CameraShake>().shakeDuration = shakeTime;
         StopCoroutine(DelayedPush(hit, forwardDirection));
     }
-
-
-
 }
