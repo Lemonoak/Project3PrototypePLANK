@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(InputHandler))]
 [RequireComponent(typeof(Rigidbody))]
@@ -21,16 +22,27 @@ public class PlayerController : MonoBehaviour
     float pushForceZ = 10.0f;
     [SerializeField]
     float rotationSpeed = 0.2f;
+    [SerializeField]
+    float pushDelay = 0.1f;
+    public float shakeTime = 1.0f;
 
+    private Camera mainCamera;
+    public GameObject batPivot;
+    public Vector3 from;
+    public Vector3 to;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         input = GetComponent<InputHandler>();
+        mainCamera = Camera.main;
+        
     }
 
     float lerpTime;
     Vector3 lerpTarget;
+
+    float batLerpTime;
     private void Update()
     {
         if (lerpTime > 0)
@@ -38,6 +50,18 @@ public class PlayerController : MonoBehaviour
             lerpTime -= Time.deltaTime / 0.5f;
             transform.position = Vector3.Lerp(transform.position, lerpTarget, Mathf.Clamp01(1 - lerpTime));
         }
+
+        /*
+        if(batLerpTime > 0)
+        {
+            //from = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);
+            //to = new Vector3(transform.forward.x, transform.forward.y - 90, transform.forward.z);
+
+            //standardPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            //batLerpTime -= Time.deltaTime / 0.2f;
+            //batPivot.transform.rotation = Quaternion.Lerp( Quaternion.Euler(from), Quaternion.Euler(to), batLerpTime);
+            //batPivot.transform.rotation = Quaternion.Lerp( );
+        }*/
     }
 
     void FixedUpdate()
@@ -81,6 +105,8 @@ public class PlayerController : MonoBehaviour
                     Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
                     angle += 20;
 
+                    batLerpTime = 1;
+
                     Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
                     if (Physics.Raycast(origin, forwardDirection, out hit, hitRange))
                     {
@@ -93,9 +119,10 @@ public class PlayerController : MonoBehaviour
                         //This pushed the player
                         if (hit.collider.tag == "Player" && hit.collider != this)
                         {
-                            hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+                            Time.timeScale = 0;
+                            StartCoroutine(DelayedPush(hit, forwardDirection));
+                            
                         }
-
                     }
                 }
             }
@@ -107,6 +134,17 @@ public class PlayerController : MonoBehaviour
     {
         lerpTime = 1;
         lerpTarget = transform.position + (direction * 10);
-        //rigidbody.AddForce(new Vector3(direction.x * pushForce, pushForceZ, direction.y * pushForce), ForceMode.Impulse);
     }
+
+    IEnumerator DelayedPush(RaycastHit hit, Vector3 forwardDirection)
+    {
+        yield return new WaitForSecondsRealtime(pushDelay);
+        Time.timeScale = 1;
+        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+        mainCamera.GetComponent<CameraShake>().shakeDuration = shakeTime;
+        StopCoroutine(DelayedPush(hit, forwardDirection));
+    }
+
+
+
 }
