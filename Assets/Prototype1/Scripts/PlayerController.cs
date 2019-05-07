@@ -7,12 +7,21 @@ public class PlayerController : MonoBehaviour
     InputHandler input;
 
     [Header("Movement")]
+    private Rigidbody rigidbody;
+
     [SerializeField]
     float speed = 5.0f;
-    private Rigidbody rigidbody;
     [SerializeField]
-    float hitRange = 10.0f;
-    float force = 10.0f;
+    float hitRange = 5.0f;
+    [SerializeField]
+    int hitWidth = 9;
+    [SerializeField]
+    float pushForce = 10.0f;
+    [SerializeField]
+    float pushForceZ = 10.0f;
+    [SerializeField]
+    float rotationSpeed = 0.2f;
+
 
     void Start()
     {
@@ -20,10 +29,23 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<InputHandler>();
     }
 
+    float lerpTime;
+    Vector3 lerpTarget;
+    private void Update()
+    {
+        if (lerpTime > 0)
+        {
+            lerpTime -= Time.deltaTime / 0.5f;
+            transform.position = Vector3.Lerp(transform.position, lerpTarget, Mathf.Clamp01(1 - lerpTime));
+        }
+    }
+
     void FixedUpdate()
     {
         Moving();
         Fire();
+
+
     }
 
     void Moving()
@@ -37,7 +59,7 @@ public class PlayerController : MonoBehaviour
             //Turn character
             if(moveDirection.sqrMagnitude > 0.0f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), 0.05f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed);
             }
         }
     }
@@ -52,20 +74,28 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log(input.controllerID + " Pressed X");
                 RaycastHit hit;
                 Vector3 origin = transform.position;
-                Vector3 forwardDirection = transform.forward;
-                Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
-                if(Physics.Raycast(origin, forwardDirection * hitRange, out hit))
+                int angle = -50;
+
+                for (int i = 0; i < hitWidth; i++)
                 {
-                    //Debug.Log(hit);
-                    //this pushes a box
-                    if(hit.collider.tag == "Box")
+                    Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
+                    angle += 20;
+
+                    Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
+                    if (Physics.Raycast(origin, forwardDirection, out hit, hitRange))
                     {
-                        hit.collider.gameObject.GetComponent<GetPushed>().AddForce(forwardDirection);
-                    }
-                    //This pushed the player
-                    if (hit.collider.tag == "Player" && hit.collider != this)
-                    {
-                        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+                        //Debug.Log(hit);
+                        //this pushes a box
+                        if(hit.collider.tag == "Box")
+                        {
+                            hit.collider.gameObject.GetComponent<GetPushed>().AddForce(forwardDirection);
+                        }
+                        //This pushed the player
+                        if (hit.collider.tag == "Player" && hit.collider != this)
+                        {
+                            hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+                        }
+
                     }
                 }
             }
@@ -75,6 +105,8 @@ public class PlayerController : MonoBehaviour
     //The function to get pushed
     void GetPushed(Vector3 direction)
     {
-        rigidbody.AddForce(new Vector3(direction.x * force, 10, direction.y * force), ForceMode.Impulse);
+        lerpTime = 1;
+        lerpTarget = transform.position + (direction * 10);
+        //rigidbody.AddForce(new Vector3(direction.x * pushForce, pushForceZ, direction.y * pushForce), ForceMode.Impulse);
     }
 }
