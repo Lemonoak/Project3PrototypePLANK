@@ -29,14 +29,13 @@ public class PlayerController : MonoBehaviour
     public float respawnTimer = 1.0f;
 
     private Camera mainCamera;
-    public BatSwingAnimation batPivot;
+    public GameObject batPivot;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         input = GetComponent<InputHandler>();
         mainCamera = Camera.main;
-        batPivot = GetComponentInChildren<BatSwingAnimation>();
         paddle = GetComponentInChildren<BoxCollider>();
     }
 
@@ -79,52 +78,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public float charge;    //t
+    public float chargeIncrease = 2f;
+    public float chargeDecrease = 5f;
+    public float angleToStopAt = 90;
     void Fire()
     {
         if(input.ConnectedController)
         {
-            if(Input.GetButtonDown(input.Action))
+            if (Input.GetButton(input.Action))
             {
-                //Debug.Log(input.controllerID + " Pressed X");
-
-                if(batPivot)
-                {
-                    if(batPivot.isAttacking == false)
-                    {
-                        batPivot.isAttacking = true;
-                    }
-                }
-
-                //Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
-                /*
-                RaycastHit hit;
-                Vector3 origin = transform.position;
-                int angle = -50;
-                for (int i = 0; i < hitWidth; i++)
-                {
-                    Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
-                    angle += 20;                   
-
-                    
-                    Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
-                    if (Physics.Raycast(origin, forwardDirection, out hit, hitRange))
-                    {
-                        //Debug.Log(hit);
-                        //this pushes a box
-                        if(hit.collider.tag == "Box")
-                        {
-                            hit.collider.gameObject.GetComponent<GetPushed>().AddForce(forwardDirection);
-                        }
-                        //This pushed the player
-                        if (hit.collider.tag == "Player" && hit.collider != this)
-                        {
-                            Time.timeScale = 0;
-                            StartCoroutine(DelayedPush(hit, forwardDirection));
-                        }
-                    }
-                }
-                */
+                charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
             }
+            else
+            {
+                charge = Mathf.Clamp01(charge - (Time.deltaTime * chargeDecrease));
+            }
+            batPivot.transform.localRotation = Quaternion.Euler(new Vector3(0, charge * angleToStopAt, 0));
         }
     }
 

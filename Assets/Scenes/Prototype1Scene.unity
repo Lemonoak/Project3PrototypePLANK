@@ -421,6 +421,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &412679983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2111259835821866946, guid: 7fcc56e09fd91c543826d45b6763ad0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1743514455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &478623749
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +782,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &884315203 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2111259835821866946, guid: 7fcc56e09fd91c543826d45b6763ad0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1485901630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &905449505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1230,7 @@ PrefabInstance:
         type: 3}
       propertyPath: batPivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1208506325}
     - target: {fileID: 7974856139101604048, guid: 7fcc56e09fd91c543826d45b6763ad0d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1616,7 +1628,7 @@ PrefabInstance:
         type: 3}
       propertyPath: batPivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 884315203}
     - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
         type: 3}
       propertyPath: shakeTime
@@ -2061,11 +2073,21 @@ PrefabInstance:
         type: 3}
       propertyPath: batPivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 412679983}
     - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
         type: 3}
       propertyPath: shakeTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
+        type: 3}
+      propertyPath: chargeDecrease
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
+        type: 3}
+      propertyPath: chargeIncrease
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fcc56e09fd91c543826d45b6763ad0d, type: 3}
