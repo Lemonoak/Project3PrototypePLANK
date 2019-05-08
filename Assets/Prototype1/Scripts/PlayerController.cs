@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     private Rigidbody rigidbody;
+    private BoxCollider paddle;
 
     [SerializeField]
     float speed = 5.0f;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<InputHandler>();
         mainCamera = Camera.main;
         batPivot = GetComponentInChildren<BatSwingAnimation>();
+        paddle = GetComponentInChildren<BoxCollider>();
     }
 
     float lerpTime;
@@ -88,15 +90,20 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
+                //Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
                 RaycastHit hit;
                 Vector3 origin = transform.position;
                 int angle = -50;
+                   
+                
 
+                /*
                 for (int i = 0; i < hitWidth; i++)
                 {
                     Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
-                    angle += 20;
+                    angle += 20;                   
 
+                    
                     Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
                     if (Physics.Raycast(origin, forwardDirection, out hit, hitRange))
                     {
@@ -114,12 +121,13 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 }
+                */
             }
         }
     }
 
     //The function to get pushed
-    void GetPushed(Vector3 direction, int distanceMultiplier, float pushTime)
+    public void GetPushed(Vector3 direction, int distanceMultiplier, float pushTime)
     {
         lerpTime = pushTime;
         lerpTarget = transform.position + (direction * distanceMultiplier);
@@ -132,17 +140,19 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown(input.Jump))
             {
                 Debug.Log("Dash");
-                GetPushed(transform.forward, 5, 0.5f);
+                GetPushed(transform.forward, 8, 0.8f);
             }
         }
     }
 
-    IEnumerator DelayedPush(RaycastHit hit, Vector3 forwardDirection)
+    public IEnumerator DelayedPush(/*RaycastHit hit,*/ Vector3 forwardDirection)
     {
         yield return new WaitForSecondsRealtime(pushDelay);
         Time.timeScale = 1;
-        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, 10, 1);
+        //hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, 10, 1);
         mainCamera.GetComponent<CameraShake>().shakeDuration = shakeTime;
-        StopCoroutine(DelayedPush(hit, forwardDirection));
+        StopCoroutine(DelayedPush(/*hit,*/ forwardDirection));
     }
+
+
 }
