@@ -82,11 +82,12 @@ public class PlayerController : MonoBehaviour
     public float chargeIncrease = 2f;
     public float chargeDecrease = 5f;
     public float angleToStopAt = 90;
+    public float angleToStartAt = -90;
     void Fire()
     {
         if(input.ConnectedController)
         {
-            if (Input.GetButton(input.Action))
+            if (Input.GetAxisRaw(input.Action) > 0)
             {
                 charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
             }
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
             {
                 charge = Mathf.Clamp01(charge - (Time.deltaTime * chargeDecrease));
             }
-            batPivot.transform.localRotation = Quaternion.Euler(new Vector3(0, charge * angleToStopAt, 0));
+            batPivot.transform.localRotation = Quaternion.Euler(new Vector3(0, angleToStartAt + (charge * angleToStopAt), 0));
         }
     }
 
@@ -112,7 +113,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown(input.Jump))
             {
                 //Debug.Log("Dash");
-                GetPushed(gameObject.transform.forward, 8, 0.8f);
+                GetPushed(gameObject.transform.forward, 6, 0.8f);
             }
         }
     }

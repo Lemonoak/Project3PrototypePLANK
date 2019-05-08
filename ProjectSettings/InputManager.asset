@@ -354,8 +354,8 @@ InputManager:
     sensitivity: 1000
     snap: 0
     invert: 0
-    type: 0
-    axis: 0
+    type: 2
+    axis: 9
     joyNum: 1
   - serializedVersion: 3
     m_Name: Controller1Jump
@@ -418,8 +418,8 @@ InputManager:
     sensitivity: 1000
     snap: 0
     invert: 0
-    type: 0
-    axis: 0
+    type: 2
+    axis: 9
     joyNum: 2
   - serializedVersion: 3
     m_Name: Controller2Jump
@@ -474,7 +474,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 3 button 2
+    positiveButton: joystick 3 button 7
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
