@@ -28,13 +28,14 @@ public class PlayerController : MonoBehaviour
     public float respawnTimer = 1.0f;
 
     private Camera mainCamera;
-    public GameObject batPivot;
+    public BatSwingAnimation batPivot;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         input = GetComponent<InputHandler>();
         mainCamera = Camera.main;
+        batPivot = GetComponentInChildren<BatSwingAnimation>();
     }
 
     float lerpTime;
@@ -79,10 +80,13 @@ public class PlayerController : MonoBehaviour
             {
                 //Debug.Log(input.controllerID + " Pressed X");
 
-                /*if(batPivot)
+                if(batPivot)
                 {
-                    batPivot.GetComponent<BatSwingAnimation>().isAttacking = true;
-                }*/
+                    if(batPivot.isAttacking == false)
+                    {
+                        batPivot.isAttacking = true;
+                    }
+                }
 
                 RaycastHit hit;
                 Vector3 origin = transform.position;

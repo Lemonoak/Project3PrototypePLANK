@@ -580,7 +580,13 @@ PrefabInstance:
       propertyPath: shakeTime
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
+        type: 3}
+      propertyPath: batPivot
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9126418674345365176, guid: 7fcc56e09fd91c543826d45b6763ad0d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7fcc56e09fd91c543826d45b6763ad0d, type: 3}
 --- !u!1 &1216597541 stripped
 GameObject:
@@ -885,7 +891,7 @@ PrefabInstance:
         type: 3}
       propertyPath: batPivot
       value: 
-      objectReference: {fileID: 1784655111}
+      objectReference: {fileID: 0}
     - target: {fileID: 2853468845523596617, guid: 7fcc56e09fd91c543826d45b6763ad0d,
         type: 3}
       propertyPath: shakeTime
@@ -997,9 +1003,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b188ce18b3f8dd48a104a43de58b1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1784655111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7019943125688566113, guid: 7fcc56e09fd91c543826d45b6763ad0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1083447831}
-  m_PrefabAsset: {fileID: 0}
