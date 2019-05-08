@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour
     public string Vertical { get { return "Controller" + controllerID + "Vertical"; } }
     public string Jump { get { return "Controller" + controllerID + "Jump"; } }
     public string Action { get { return "Controller" + controllerID + "Action"; } }
+    public string Join { get { return "Controller" + controllerID + "Join"; } }
 
     public static void FlushControllers()
     {
@@ -37,7 +38,7 @@ public class InputHandler : MonoBehaviour
             //See if any controller activates
             for (int i = 1; i <= 2; i++)
             {
-                if (!assignedControllers.Contains(i) && Input.GetButtonDown("Controller" + i + "Action"))
+                if (!assignedControllers.Contains(i) && Input.GetButtonDown("Controller" + i + "Join"))
                 {
                     controllerID = i;
                     assignedControllers.Add(i);
