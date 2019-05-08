@@ -96,13 +96,10 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
+                /*
                 RaycastHit hit;
                 Vector3 origin = transform.position;
                 int angle = -50;
-                   
-                
-
-                /*
                 for (int i = 0; i < hitWidth; i++)
                 {
                     Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
@@ -144,8 +141,8 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown(input.Jump))
             {
-                Debug.Log("Dash");
-                GetPushed(transform.forward, 8, 0.8f);
+                //Debug.Log("Dash");
+                GetPushed(gameObject.transform.forward, 8, 0.8f);
             }
         }
     }
