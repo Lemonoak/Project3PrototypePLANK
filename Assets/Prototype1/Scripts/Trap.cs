@@ -9,7 +9,7 @@ public class Trap : MonoBehaviour
         if(other.tag == "Player")
         {
             other.gameObject.SetActive(false);
-            Debug.Log("Player Entered trap");
+            //Debug.Log("Player Entered trap");
         }
     }
 }

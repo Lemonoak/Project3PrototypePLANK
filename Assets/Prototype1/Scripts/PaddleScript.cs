@@ -12,11 +12,10 @@ public class PaddleScript : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Paddle yo");
-            forwardDirection = player.gameObject.GetComponent<PlayerController>().transform.forward;
+            forwardDirection = player.gameObject.transform.forward;
             other.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, 10, 1);
             Time.timeScale = 0;
             player.StartCoroutine(player.DelayedPush(forwardDirection));
-                       
         }
     }
 }
