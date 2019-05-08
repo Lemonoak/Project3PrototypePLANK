@@ -5,7 +5,7 @@ using UnityEngine;
 public class BatSwingAnimation : MonoBehaviour
 {
     Animator anim;
-    [HideInInspector] public bool isAttacking = false;
+    /*[HideInInspector] */public bool isAttacking = false;
     // Start is called before the first frame update
     void Start()
     {
