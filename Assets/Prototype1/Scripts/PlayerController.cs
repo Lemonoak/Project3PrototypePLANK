@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviour
 
     private Camera mainCamera;
     public GameObject batPivot;
-    public Vector3 from;
-    public Vector3 to;
 
     void Start()
     {
@@ -41,8 +39,6 @@ public class PlayerController : MonoBehaviour
 
     float lerpTime;
     Vector3 lerpTarget;
-
-    float batLerpTime;
     private void Update()
     {
         if (lerpTime > 0)
@@ -50,18 +46,6 @@ public class PlayerController : MonoBehaviour
             lerpTime -= Time.deltaTime / 0.5f;
             transform.position = Vector3.Lerp(transform.position, lerpTarget, Mathf.Clamp01(1 - lerpTime));
         }
-
-        /*
-        if(batLerpTime > 0)
-        {
-            //from = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z);
-            //to = new Vector3(transform.forward.x, transform.forward.y - 90, transform.forward.z);
-
-            //standardPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            //batLerpTime -= Time.deltaTime / 0.2f;
-            //batPivot.transform.rotation = Quaternion.Lerp( Quaternion.Euler(from), Quaternion.Euler(to), batLerpTime);
-            //batPivot.transform.rotation = Quaternion.Lerp( );
-        }*/
     }
 
     void FixedUpdate()
@@ -92,8 +76,13 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetButtonDown(input.Action))
             {
-                
                 //Debug.Log(input.controllerID + " Pressed X");
+
+                /*if(batPivot)
+                {
+                    batPivot.GetComponent<BatSwingAnimation>().isAttacking = true;
+                }*/
+
                 RaycastHit hit;
                 Vector3 origin = transform.position;
                 int angle = -50;
@@ -102,8 +91,6 @@ public class PlayerController : MonoBehaviour
                 {
                     Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
                     angle += 20;
-
-                    batLerpTime = 1;
 
                     Debug.DrawRay(origin, forwardDirection * hitRange, Color.blue, 3f);
                     if (Physics.Raycast(origin, forwardDirection, out hit, hitRange))
@@ -119,7 +106,6 @@ public class PlayerController : MonoBehaviour
                         {
                             Time.timeScale = 0;
                             StartCoroutine(DelayedPush(hit, forwardDirection));
-                            
                         }
                     }
                 }
