@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        lerpTime = 0;
+    }
+
     void FixedUpdate()
     {
         Moving();
