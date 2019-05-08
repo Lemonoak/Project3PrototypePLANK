@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         Moving();
         Fire();
+        Dash();
     }
 
     void Moving()
@@ -114,17 +115,29 @@ public class PlayerController : MonoBehaviour
     }
 
     //The function to get pushed
-    void GetPushed(Vector3 direction)
+    void GetPushed(Vector3 direction, int distanceMultiplier, float pushTime)
     {
-        lerpTime = 1;
-        lerpTarget = transform.position + (direction * 10);
+        lerpTime = pushTime;
+        lerpTarget = transform.position + (direction * distanceMultiplier);
+    }
+
+    void Dash()
+    {
+        if (input.ConnectedController)
+        {
+            if (Input.GetButtonDown(input.Jump))
+            {
+                Debug.Log("Dash");
+                GetPushed(transform.forward, 5, 0.5f);
+            }
+        }
     }
 
     IEnumerator DelayedPush(RaycastHit hit, Vector3 forwardDirection)
     {
         yield return new WaitForSecondsRealtime(pushDelay);
         Time.timeScale = 1;
-        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection);
+        hit.collider.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, 10, 1);
         mainCamera.GetComponent<CameraShake>().shakeDuration = shakeTime;
         StopCoroutine(DelayedPush(hit, forwardDirection));
     }
