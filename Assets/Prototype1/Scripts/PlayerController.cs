@@ -80,10 +80,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public float charge;    //t
+    public float maxCharge;
     public float chargeIncrease = 2f;
     public float chargeDecrease = 5f;
     public float angleToStopAt = 90;
     public float angleToStartAt = -90;
+    public bool isAttacking = false;
+
     void Fire()
     {
         if(input.ConnectedController)
@@ -93,15 +96,18 @@ public class PlayerController : MonoBehaviour
                 charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
                 angleToStopAt = Mathf.Abs(angleToStopAt);
                 angleToStartAt = -Mathf.Abs(angleToStartAt);
+                maxCharge = charge;
             }
             else if(Input.GetAxisRaw(input.Action2) > 0)
             {
                 charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
                 angleToStopAt = -Mathf.Abs(angleToStopAt);
                 angleToStartAt = Mathf.Abs(angleToStartAt);
+                maxCharge = charge;
             }
             else
             {
+                isAttacking = charge > 0;
                 charge = Mathf.Clamp01(charge - (Time.deltaTime * chargeDecrease));
             }
             batPivot.transform.localRotation = Quaternion.Euler(new Vector3(0, angleToStartAt + (charge * angleToStopAt), 0));
@@ -109,7 +115,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //The function to get pushed
-    public void GetPushed(Vector3 direction, int distanceMultiplier, float pushTime)
+    public void GetPushed(Vector3 direction, float distanceMultiplier, float pushTime)
     {
         lerpTime = pushTime;
         lerpTarget = transform.position + (direction * distanceMultiplier);

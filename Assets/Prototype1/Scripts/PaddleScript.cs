@@ -9,11 +9,12 @@ public class PaddleScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && player.isAttacking)
         {
             Debug.Log("Paddle yo");
             forwardDirection = player.gameObject.transform.forward;
-            other.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, 10, 1);
+            other.gameObject.GetComponent<PlayerController>().GetPushed(forwardDirection, (6 * player.maxCharge), 1);
+            Debug.Log(10 * player.maxCharge);
             Time.timeScale = 0;
             player.StartCoroutine(player.DelayedPush(forwardDirection));
         }
