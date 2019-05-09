@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour
     public string Vertical { get { return "Controller" + controllerID + "Vertical"; } }
     public string Jump { get { return "Controller" + controllerID + "Jump"; } }
     public string Action { get { return "Controller" + controllerID + "Action"; } }
+    public string Action2 { get { return "Controller" + controllerID + "Action2"; } }
     public string Join { get { return "Controller" + controllerID + "Join"; } }
 
     public static void FlushControllers()

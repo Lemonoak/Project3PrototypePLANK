@@ -90,6 +90,14 @@ public class PlayerController : MonoBehaviour
             if (Input.GetAxisRaw(input.Action) > 0)
             {
                 charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
+                angleToStopAt = Mathf.Abs(angleToStopAt);
+                angleToStartAt = -Mathf.Abs(angleToStartAt);
+            }
+            else if(Input.GetAxisRaw(input.Action2) > 0)
+            {
+                charge = Mathf.Clamp01(charge + (Time.deltaTime * chargeIncrease));
+                angleToStopAt = -Mathf.Abs(angleToStopAt);
+                angleToStartAt = Mathf.Abs(angleToStartAt);
             }
             else
             {
