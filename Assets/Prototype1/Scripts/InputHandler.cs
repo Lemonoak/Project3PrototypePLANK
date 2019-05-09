@@ -36,7 +36,8 @@ public class InputHandler : MonoBehaviour
         if (controllerID <= 0)
         {
             //See if any controller activates
-            for (int i = 1; i <= 2; i++)
+            //Change the i <= NUMBER to the number of supported controllers and add inputs in the input manager
+            for (int i = 1; i <= 4; i++)
             {
                 if (!assignedControllers.Contains(i) && Input.GetButtonDown("Controller" + i + "Join"))
                 {
